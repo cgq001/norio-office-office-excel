@@ -1,4 +1,4 @@
-import { mkdir, writeFile } from 'node:fs/promises'
+import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -44,7 +44,6 @@ const toolInputsSchema = {
   properties: Object.fromEntries(getExcelToolDefinitions().map((tool) => [tool.name, tool.inputSchema])),
 }
 
-await mkdir(schemaRoot, { recursive: true })
 const schemas = {
   'workbook.schema.json': excelWorkbookJsonSchema,
   'resource-map.schema.json': resourceMapSchema,
@@ -52,7 +51,13 @@ const schemas = {
   'stream-event.schema.json': excelStreamEventJsonSchema,
   'tool-inputs.schema.json': toolInputsSchema,
 }
+const write = process.argv.includes('--write')
+if (!write && !process.argv.includes('--check')) throw new Error('Use --write or --check')
+if (write) await mkdir(schemaRoot, { recursive: true })
 for (const [fileName, schema] of Object.entries(schemas)) {
-  await writeFile(resolve(schemaRoot, fileName), `${JSON.stringify(schema, null, 2)}\n`, 'utf8')
+  const path = resolve(schemaRoot, fileName)
+  const content = `${JSON.stringify(schema, null, 2)}\n`
+  if (write) await writeFile(path, content, 'utf8')
+  else if (await readFile(path, 'utf8') !== content) throw new Error(`${fileName} is out of sync; run npm run skill:sync`)
 }
-process.stdout.write(`${JSON.stringify({ ok: true, files: Object.keys(schemas) })}\n`)
+process.stdout.write(`${write ? 'Generated' : 'Checked'} ${Object.keys(schemas).length} schemas\n`)
