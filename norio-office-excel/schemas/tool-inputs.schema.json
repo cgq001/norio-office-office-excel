@@ -1,0 +1,2193 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Office Excel AI tool inputs",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "excel_get_capabilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {}
+    },
+    "excel_create_workbook": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requestId",
+        "workbook"
+      ],
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "workbook": {
+          "type": "object"
+        }
+      }
+    },
+    "excel_read_workbook": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "documentId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requestId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "contextId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "outline": {
+          "type": "boolean",
+          "description": "默认为 true；传 false 时按 contextId 读取授权内容。"
+        },
+        "cursor": {
+          "type": "string"
+        },
+        "budget": {
+          "type": "object"
+        }
+      }
+    },
+    "excel_search": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contextId",
+        "query"
+      ],
+      "properties": {
+        "contextId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "query": {
+          "type": "string",
+          "minLength": 1
+        },
+        "budget": {
+          "type": "object"
+        }
+      }
+    },
+    "excel_get_selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {}
+    },
+    "excel_capture_target": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "sheetId"
+          ],
+          "properties": {
+            "kind": {
+              "const": "sheet"
+            },
+            "sheetId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "purpose": {
+              "enum": [
+                "insert",
+                "modify",
+                "reference"
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "sheetId",
+            "ranges"
+          ],
+          "properties": {
+            "kind": {
+              "const": "range"
+            },
+            "sheetId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "purpose": {
+              "enum": [
+                "insert",
+                "modify",
+                "reference"
+              ]
+            },
+            "ranges": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "startRow",
+                  "endRow",
+                  "startCol",
+                  "endCol",
+                  "anchorRow",
+                  "anchorCol",
+                  "mode"
+                ],
+                "properties": {
+                  "startRow": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "endRow": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "startCol": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "endCol": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "anchorRow": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "anchorCol": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "mode": {
+                    "enum": [
+                      "cell",
+                      "row",
+                      "col"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "objectKind",
+            "objectId"
+          ],
+          "properties": {
+            "kind": {
+              "const": "object"
+            },
+            "objectKind": {
+              "enum": [
+                "table",
+                "named-range",
+                "chart",
+                "image",
+                "pivot-table"
+              ]
+            },
+            "objectId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "sheetId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "purpose": {
+              "enum": [
+                "insert",
+                "modify",
+                "reference"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "excel_read_target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contextId",
+        "targetRefs"
+      ],
+      "properties": {
+        "contextId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "targetRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "budget": {
+          "type": "object"
+        }
+      }
+    },
+    "excel_apply_patch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contextId",
+        "patch"
+      ],
+      "properties": {
+        "contextId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "patch": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$id": "https://norio.example/schemas/office-excel/ai-patch-v1.json",
+          "title": "Office Excel AI Patch v1",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "protocolVersion",
+            "documentId",
+            "requestId",
+            "contextId",
+            "baseRevision",
+            "operations"
+          ],
+          "properties": {
+            "protocolVersion": {
+              "const": 1
+            },
+            "documentId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "requestId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "contextId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "baseRevision": {
+              "type": "string",
+              "minLength": 1
+            },
+            "operations": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 500,
+              "items": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "targetRef",
+                      "values"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "setCells"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      },
+                      "startRow": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "startCol": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "values": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "array",
+                          "minItems": 1,
+                          "items": {
+                            "oneOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": [
+                                  "type"
+                                ],
+                                "properties": {
+                                  "type": {
+                                    "const": "blank"
+                                  }
+                                }
+                              },
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": [
+                                  "type",
+                                  "value"
+                                ],
+                                "properties": {
+                                  "type": {
+                                    "const": "text"
+                                  },
+                                  "value": {
+                                    "type": "string"
+                                  }
+                                }
+                              },
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": [
+                                  "type",
+                                  "value"
+                                ],
+                                "properties": {
+                                  "type": {
+                                    "const": "number"
+                                  },
+                                  "value": {
+                                    "type": "number"
+                                  }
+                                }
+                              },
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": [
+                                  "type",
+                                  "value"
+                                ],
+                                "properties": {
+                                  "type": {
+                                    "const": "boolean"
+                                  },
+                                  "value": {
+                                    "type": "boolean"
+                                  }
+                                }
+                              },
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": [
+                                  "type",
+                                  "value"
+                                ],
+                                "properties": {
+                                  "type": {
+                                    "const": "date"
+                                  },
+                                  "value": {
+                                    "type": "string"
+                                  },
+                                  "dateSystem": {
+                                    "enum": [
+                                      1900,
+                                      1904
+                                    ]
+                                  },
+                                  "timeZone": {
+                                    "type": "string"
+                                  }
+                                }
+                              },
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": [
+                                  "type",
+                                  "formula"
+                                ],
+                                "properties": {
+                                  "type": {
+                                    "const": "formula"
+                                  },
+                                  "formula": {
+                                    "type": "string",
+                                    "pattern": "^="
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        },
+                        "description": "必须是非空矩形二维数组；运行时会拒绝不等宽行。"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "targetRef"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "clearCells"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      },
+                      "clear": {
+                        "enum": [
+                          "content",
+                          "style",
+                          "all"
+                        ],
+                        "default": "content"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "targetRef",
+                      "formulas"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "setFormulas"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      },
+                      "startRow": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "startCol": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "formulas": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "array",
+                          "minItems": 1,
+                          "items": {
+                            "type": "string",
+                            "pattern": "^="
+                          }
+                        },
+                        "description": "必须是非空矩形二维数组，每个公式均以 = 开头。"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "targetRef",
+                      "style"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "setCellStyle"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      },
+                      "style": {
+                        "type": "object",
+                        "minProperties": 1,
+                        "additionalProperties": false,
+                        "properties": {
+                          "bold": {
+                            "type": "boolean"
+                          },
+                          "italic": {
+                            "type": "boolean"
+                          },
+                          "underline": {
+                            "type": "boolean"
+                          },
+                          "strikethrough": {
+                            "type": "boolean"
+                          },
+                          "fontFamily": {
+                            "type": "string"
+                          },
+                          "fontSize": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                          },
+                          "numberFormat": {
+                            "enum": [
+                              "general",
+                              "custom",
+                              "text",
+                              "number",
+                              "percent",
+                              "fraction",
+                              "scientific",
+                              "currency",
+                              "currency-cny",
+                              "currency-hkd",
+                              "currency-usd",
+                              "accounting-cny",
+                              "date-slash",
+                              "date-dash",
+                              "date-month-day-cn",
+                              "date-year-month-cn",
+                              "date-full-cn",
+                              "datetime",
+                              "time",
+                              "special-postal-code",
+                              "special-chinese-lower",
+                              "special-chinese-upper",
+                              "special-unit-wan",
+                              "special-unit-million",
+                              "special-unit-ten-million",
+                              "special-unit-hundred-million",
+                              "special-unit-cny-wan",
+                              "special-unit-cny-million",
+                              "special-unit-cny-ten-million",
+                              "special-unit-cny-hundred-million",
+                              "special-sign",
+                              "special-sign-red-negative"
+                            ]
+                          },
+                          "customNumberFormatCode": {
+                            "type": "string"
+                          },
+                          "decimalPlaces": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 30
+                          },
+                          "useThousandsSeparator": {
+                            "type": "boolean"
+                          },
+                          "negativeNumberStyle": {
+                            "enum": [
+                              "parentheses-red",
+                              "parentheses",
+                              "red",
+                              "minus",
+                              "minus-red"
+                            ]
+                          },
+                          "horizontalAlign": {
+                            "enum": [
+                              "left",
+                              "center",
+                              "right",
+                              "fill",
+                              "justify",
+                              "centerContinuous",
+                              "distributed"
+                            ]
+                          },
+                          "verticalAlign": {
+                            "enum": [
+                              "top",
+                              "middle",
+                              "bottom",
+                              "justify",
+                              "distributed"
+                            ]
+                          },
+                          "indent": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 250
+                          },
+                          "wrapText": {
+                            "type": "boolean"
+                          },
+                          "shrinkToFit": {
+                            "type": "boolean"
+                          },
+                          "textDirection": {
+                            "enum": [
+                              "horizontal",
+                              "vertical"
+                            ]
+                          },
+                          "textRotation": {
+                            "type": "number",
+                            "minimum": -90,
+                            "maximum": 90
+                          },
+                          "foregroundColor": {
+                            "type": "string",
+                            "pattern": "^#(?:[0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$"
+                          },
+                          "backgroundColor": {
+                            "type": "string",
+                            "pattern": "^#(?:[0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$"
+                          },
+                          "fillGradientStyle": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "enum": [
+                              "horizontal",
+                              "vertical",
+                              null
+                            ]
+                          },
+                          "fillGradientVariant": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "enum": [
+                              "top",
+                              "bottom",
+                              "left",
+                              "right",
+                              "center",
+                              null
+                            ]
+                          },
+                          "fillGradientColorOne": {
+                            "type": "string",
+                            "pattern": "^#(?:[0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$"
+                          },
+                          "fillGradientColorTwo": {
+                            "type": "string",
+                            "pattern": "^#(?:[0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$"
+                          },
+                          "fillPattern": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "enum": [
+                              "none",
+                              "solid",
+                              "darkVertical",
+                              "darkHorizontal",
+                              "darkGrid",
+                              "darkTrellis",
+                              "darkDown",
+                              "darkUp",
+                              "lightVertical",
+                              "lightHorizontal",
+                              "lightGrid",
+                              "lightTrellis",
+                              "lightDown",
+                              "lightUp",
+                              "darkGray",
+                              "mediumGray",
+                              "lightGray",
+                              "gray125",
+                              "gray0625",
+                              null
+                            ]
+                          },
+                          "fillPatternColor": {
+                            "type": "string",
+                            "pattern": "^#(?:[0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$"
+                          },
+                          "borderTopStyle": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "borderRightStyle": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "borderBottomStyle": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "borderLeftStyle": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "borderDiagonalDownStyle": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "borderDiagonalUpStyle": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "borderColor": {
+                            "type": "string",
+                            "pattern": "^#(?:[0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "targetRef",
+                      "properties"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "unsetCellStyle"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      },
+                      "properties": {
+                        "type": "array",
+                        "minItems": 1,
+                        "uniqueItems": true,
+                        "items": {
+                          "enum": [
+                            "bold",
+                            "italic",
+                            "underline",
+                            "strikethrough",
+                            "fontSize",
+                            "fontFamily",
+                            "foregroundColor",
+                            "backgroundColor",
+                            "horizontalAlign",
+                            "verticalAlign",
+                            "indent",
+                            "wrapText",
+                            "shrinkToFit",
+                            "textDirection",
+                            "textRotation",
+                            "numberFormat",
+                            "customNumberFormatCode",
+                            "decimalPlaces",
+                            "useThousandsSeparator",
+                            "negativeNumberStyle",
+                            "fillGradientStyle",
+                            "fillGradientVariant",
+                            "fillGradientColorOne",
+                            "fillGradientColorTwo",
+                            "fillPattern",
+                            "fillPatternColor",
+                            "borderTopStyle",
+                            "borderRightStyle",
+                            "borderBottomStyle",
+                            "borderLeftStyle",
+                            "borderDiagonalDownStyle",
+                            "borderDiagonalUpStyle",
+                            "borderColor"
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "targetRef",
+                      "height"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "resizeRows"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      },
+                      "height": {
+                        "type": "number",
+                        "minimum": 0
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "targetRef",
+                      "width"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "resizeCols"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      },
+                      "width": {
+                        "type": "number",
+                        "minimum": 0
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "targetRef"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "insertRows"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      },
+                      "count": {
+                        "type": "integer",
+                        "minimum": 1
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "targetRef"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "deleteRows"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      },
+                      "count": {
+                        "type": "integer",
+                        "minimum": 1
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "targetRef"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "insertCols"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      },
+                      "count": {
+                        "type": "integer",
+                        "minimum": 1
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "targetRef"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "deleteCols"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      },
+                      "count": {
+                        "type": "integer",
+                        "minimum": 1
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "targetRef"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "mergeRange"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "targetRef"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "unmergeRange"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "sourceTargetRef",
+                      "destinationTargetRef"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "moveRange"
+                      },
+                      "sourceTargetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      },
+                      "destinationTargetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "action"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "sheetOperation"
+                      },
+                      "action": {
+                        "const": "add"
+                      },
+                      "name": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 31,
+                        "pattern": "^(?=.*\\S)[^\\\\/*?:\\[\\]]+$"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "action",
+                      "targetRef",
+                      "sheetId",
+                      "name"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "sheetOperation"
+                      },
+                      "action": {
+                        "const": "rename"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      },
+                      "sheetId": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "name": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 31,
+                        "pattern": "^(?=.*\\S)[^\\\\/*?:\\[\\]]+$"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "action",
+                      "targetRef",
+                      "sheetId"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "sheetOperation"
+                      },
+                      "action": {
+                        "const": "delete"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      },
+                      "sheetId": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "action",
+                      "targetRef",
+                      "sheetId"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "sheetOperation"
+                      },
+                      "action": {
+                        "const": "activate"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      },
+                      "sheetId": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "action",
+                      "targetRef",
+                      "sheetId"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "sheetOperation"
+                      },
+                      "action": {
+                        "const": "hide"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      },
+                      "sheetId": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "action",
+                      "targetRef",
+                      "sheetId"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "sheetOperation"
+                      },
+                      "action": {
+                        "const": "show"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      },
+                      "sheetId": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "action",
+                      "sourceTargetRef",
+                      "destinationTargetRef"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "chartOperation"
+                      },
+                      "action": {
+                        "const": "create"
+                      },
+                      "sourceTargetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      },
+                      "destinationTargetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      },
+                      "chartType": {
+                        "enum": [
+                          "bar",
+                          "line",
+                          "pie",
+                          "area",
+                          "radar",
+                          "combo",
+                          "scatter"
+                        ]
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "x": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "y": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "width": {
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                      },
+                      "height": {
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "action",
+                      "targetRef"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "chartOperation"
+                      },
+                      "action": {
+                        "const": "update"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      },
+                      "sourceTargetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      },
+                      "chartType": {
+                        "enum": [
+                          "bar",
+                          "line",
+                          "pie",
+                          "area",
+                          "radar",
+                          "combo",
+                          "scatter"
+                        ]
+                      },
+                      "title": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "action",
+                      "targetRef"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "chartOperation"
+                      },
+                      "action": {
+                        "const": "delete"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "action",
+                      "targetRef",
+                      "rules"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "sortRange"
+                      },
+                      "action": {
+                        "const": "apply"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      },
+                      "rules": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "oneOf": [
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": [
+                                "col",
+                                "direction"
+                              ],
+                              "properties": {
+                                "col": {
+                                  "type": "integer",
+                                  "minimum": 1,
+                                  "description": "工作表中从 1 开始的绝对列号。"
+                                },
+                                "direction": {
+                                  "enum": [
+                                    "asc",
+                                    "desc"
+                                  ]
+                                },
+                                "sortOn": {
+                                  "const": "values"
+                                },
+                                "customOrder": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": [
+                                "col",
+                                "direction",
+                                "sortOn",
+                                "color"
+                              ],
+                              "properties": {
+                                "col": {
+                                  "type": "integer",
+                                  "minimum": 1,
+                                  "description": "工作表中从 1 开始的绝对列号。"
+                                },
+                                "direction": {
+                                  "enum": [
+                                    "asc",
+                                    "desc"
+                                  ]
+                                },
+                                "sortOn": {
+                                  "const": "background-color"
+                                },
+                                "color": {
+                                  "type": "string",
+                                  "pattern": "^#(?:[0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$"
+                                }
+                              }
+                            },
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": [
+                                "col",
+                                "direction",
+                                "sortOn",
+                                "color"
+                              ],
+                              "properties": {
+                                "col": {
+                                  "type": "integer",
+                                  "minimum": 1,
+                                  "description": "工作表中从 1 开始的绝对列号。"
+                                },
+                                "direction": {
+                                  "enum": [
+                                    "asc",
+                                    "desc"
+                                  ]
+                                },
+                                "sortOn": {
+                                  "const": "foreground-color"
+                                },
+                                "color": {
+                                  "type": "string",
+                                  "pattern": "^#(?:[0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$"
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "hasHeader": {
+                        "type": "boolean",
+                        "default": true
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "action",
+                      "targetRef"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "sortRange"
+                      },
+                      "action": {
+                        "const": "clear"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "action",
+                      "targetRef"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "filterRange"
+                      },
+                      "action": {
+                        "const": "enable"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "action",
+                      "targetRef",
+                      "col",
+                      "filterState"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "filterRange"
+                      },
+                      "action": {
+                        "const": "apply"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      },
+                      "col": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "description": "工作表中从 1 开始的绝对列号。"
+                      },
+                      "filterState": {
+                        "oneOf": [
+                          {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "mode"
+                            ],
+                            "properties": {
+                              "mode": {
+                                "const": "non-empty"
+                              }
+                            }
+                          },
+                          {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "mode",
+                              "selectedValues"
+                            ],
+                            "properties": {
+                              "mode": {
+                                "const": "values"
+                              },
+                              "selectedValues": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                },
+                                "description": "空数组表示不匹配任何行；空字符串表示选择空值；按显示文本匹配。"
+                              }
+                            }
+                          },
+                          {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "mode"
+                            ],
+                            "anyOf": [
+                              {
+                                "required": [
+                                  "selectedFillColors"
+                                ]
+                              },
+                              {
+                                "required": [
+                                  "selectedTextColors"
+                                ]
+                              }
+                            ],
+                            "properties": {
+                              "mode": {
+                                "const": "colors"
+                              },
+                              "selectedFillColors": {
+                                "type": "array",
+                                "minItems": 1,
+                                "items": {
+                                  "type": "string",
+                                  "pattern": "^#(?:[0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$"
+                                }
+                              },
+                              "selectedTextColors": {
+                                "type": "array",
+                                "minItems": 1,
+                                "items": {
+                                  "type": "string",
+                                  "pattern": "^#(?:[0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$"
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "mode",
+                              "selectedColor"
+                            ],
+                            "properties": {
+                              "mode": {
+                                "const": "background-color"
+                              },
+                              "selectedColor": {
+                                "type": "string",
+                                "pattern": "^#(?:[0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$"
+                              }
+                            }
+                          },
+                          {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "mode",
+                              "selectedColor"
+                            ],
+                            "properties": {
+                              "mode": {
+                                "const": "foreground-color"
+                              },
+                              "selectedColor": {
+                                "type": "string",
+                                "pattern": "^#(?:[0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$"
+                              }
+                            }
+                          },
+                          {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "mode",
+                              "conditions"
+                            ],
+                            "properties": {
+                              "mode": {
+                                "const": "condition"
+                              },
+                              "conditionJoin": {
+                                "enum": [
+                                  "and",
+                                  "or"
+                                ],
+                                "default": "or"
+                              },
+                              "conditions": {
+                                "type": "array",
+                                "minItems": 1,
+                                "maxItems": 2,
+                                "items": {
+                                  "oneOf": [
+                                    {
+                                      "type": "object",
+                                      "additionalProperties": false,
+                                      "required": [
+                                        "type",
+                                        "operator",
+                                        "value"
+                                      ],
+                                      "properties": {
+                                        "type": {
+                                          "const": "text"
+                                        },
+                                        "operator": {
+                                          "enum": [
+                                            "eq",
+                                            "ne",
+                                            "starts-with",
+                                            "ends-with",
+                                            "contains",
+                                            "not-contains"
+                                          ]
+                                        },
+                                        "value": {
+                                          "type": "string"
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "type": "object",
+                                      "additionalProperties": false,
+                                      "required": [
+                                        "type",
+                                        "operator",
+                                        "value"
+                                      ],
+                                      "properties": {
+                                        "type": {
+                                          "const": "number"
+                                        },
+                                        "operator": {
+                                          "enum": [
+                                            "eq",
+                                            "ne",
+                                            "gt",
+                                            "gte",
+                                            "lt",
+                                            "lte"
+                                          ]
+                                        },
+                                        "value": {
+                                          "type": "string"
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "type": "object",
+                                      "additionalProperties": false,
+                                      "required": [
+                                        "type",
+                                        "operator",
+                                        "value",
+                                        "secondaryValue"
+                                      ],
+                                      "properties": {
+                                        "type": {
+                                          "const": "number"
+                                        },
+                                        "operator": {
+                                          "const": "between"
+                                        },
+                                        "value": {
+                                          "type": "string"
+                                        },
+                                        "secondaryValue": {
+                                          "type": "string"
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "mergeWithExisting": {
+                        "type": "boolean",
+                        "default": true
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "action",
+                      "targetRef",
+                      "col"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "filterRange"
+                      },
+                      "action": {
+                        "const": "clear-column"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      },
+                      "col": {
+                        "type": "integer",
+                        "minimum": 1
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "action",
+                      "targetRef"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "filterRange"
+                      },
+                      "action": {
+                        "const": "clear-all"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "action",
+                      "targetRef"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "filterRange"
+                      },
+                      "action": {
+                        "const": "disable"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "action",
+                      "targetRef"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "tableOperation"
+                      },
+                      "action": {
+                        "const": "create"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      },
+                      "name": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      },
+                      "headerRow": {
+                        "type": "boolean"
+                      },
+                      "totalRow": {
+                        "type": "boolean"
+                      },
+                      "bandedRows": {
+                        "type": "boolean"
+                      },
+                      "filterEnabled": {
+                        "type": "boolean"
+                      },
+                      "styleId": {
+                        "enum": [
+                          "blue",
+                          "green",
+                          "orange",
+                          "purple",
+                          "gray"
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "action",
+                      "targetRef"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "tableOperation"
+                      },
+                      "action": {
+                        "const": "update"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      },
+                      "name": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      },
+                      "headerRow": {
+                        "type": "boolean"
+                      },
+                      "totalRow": {
+                        "type": "boolean"
+                      },
+                      "bandedRows": {
+                        "type": "boolean"
+                      },
+                      "filterEnabled": {
+                        "type": "boolean"
+                      },
+                      "styleId": {
+                        "enum": [
+                          "blue",
+                          "green",
+                          "orange",
+                          "purple",
+                          "gray"
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "action",
+                      "targetRef"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "tableOperation"
+                      },
+                      "action": {
+                        "const": "delete"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "action",
+                      "sourceTargetRef",
+                      "destinationTargetRef",
+                      "config"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "pivotTableOperation"
+                      },
+                      "action": {
+                        "const": "create"
+                      },
+                      "sourceTargetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      },
+                      "destinationTargetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      },
+                      "config": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "rowFieldCol": {
+                            "type": "integer",
+                            "minimum": 1
+                          },
+                          "rowFieldCols": {
+                            "type": "array",
+                            "minItems": 1,
+                            "items": {
+                              "type": "integer",
+                              "minimum": 1
+                            }
+                          },
+                          "valueFieldCol": {
+                            "type": "integer",
+                            "minimum": 1
+                          },
+                          "valueFields": {
+                            "type": "array",
+                            "minItems": 1,
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": [
+                                "col"
+                              ],
+                              "properties": {
+                                "col": {
+                                  "type": "integer",
+                                  "minimum": 1
+                                },
+                                "aggregate": {
+                                  "enum": [
+                                    "sum",
+                                    "count",
+                                    "counta",
+                                    "average",
+                                    "min",
+                                    "max"
+                                  ]
+                                },
+                                "label": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          },
+                          "columnFieldCol": {
+                            "type": "integer",
+                            "minimum": 1
+                          },
+                          "aggregate": {
+                            "enum": [
+                              "sum",
+                              "count",
+                              "counta",
+                              "average",
+                              "min",
+                              "max"
+                            ]
+                          },
+                          "sortRows": {
+                            "enum": [
+                              "source",
+                              "asc",
+                              "desc"
+                            ]
+                          },
+                          "sortColumns": {
+                            "enum": [
+                              "source",
+                              "asc",
+                              "desc"
+                            ]
+                          },
+                          "filters": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": [
+                                "col"
+                              ],
+                              "properties": {
+                                "col": {
+                                  "type": "integer",
+                                  "minimum": 1
+                                },
+                                "values": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "excludeValues": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "nonEmpty": {
+                                  "type": "boolean"
+                                }
+                              }
+                            }
+                          },
+                          "headerRow": {
+                            "type": "boolean"
+                          },
+                          "includeGrandTotal": {
+                            "type": "boolean"
+                          },
+                          "includeGrandTotalRow": {
+                            "type": "boolean"
+                          },
+                          "includeGrandTotalColumn": {
+                            "type": "boolean"
+                          },
+                          "targetSheetName": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 31,
+                            "pattern": "^(?=.*\\S)[^\\\\/*?:\\[\\]]+$"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "action",
+                      "targetRef"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "pivotTableOperation"
+                      },
+                      "action": {
+                        "const": "refresh"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "action",
+                      "targetRef"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "pivotTableOperation"
+                      },
+                      "action": {
+                        "const": "delete"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "action",
+                      "targetRef"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "imageOperation"
+                      },
+                      "action": {
+                        "const": "update"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      },
+                      "x": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "y": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "width": {
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                      },
+                      "height": {
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                      },
+                      "rotation": {
+                        "type": "number"
+                      },
+                      "opacity": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                      },
+                      "hyperlinkUrl": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "action",
+                      "targetRef"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "imageOperation"
+                      },
+                      "action": {
+                        "const": "delete"
+                      },
+                      "targetRef": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "只能使用当前上下文返回的不透明目标引用。"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

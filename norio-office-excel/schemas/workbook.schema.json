@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://norio.top/schemas/office-excel/workbook-v1.schema.json",
+  "title": "Norio Office Excel Workbook",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "title",
+    "sheets",
+    "activeSheetId",
+    "namedRanges"
+  ],
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "activeSheetId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "watermark": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "namedRanges": {
+      "type": "array"
+    },
+    "sheets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "rowCount",
+          "colCount",
+          "cells"
+        ],
+        "properties": {
+          "id": {},
+          "name": {},
+          "tabColor": {},
+          "protected": {},
+          "hidden": {},
+          "hiddenState": {},
+          "pinned": {},
+          "rowCount": {},
+          "colCount": {},
+          "cells": {},
+          "cellLocks": {},
+          "merges": {},
+          "hiddenRows": {},
+          "hiddenCols": {},
+          "rowGroups": {},
+          "colGroups": {},
+          "rowOrderKeys": {},
+          "nextRowOrderKey": {},
+          "colOrderKeys": {},
+          "nextColOrderKey": {},
+          "columnFormats": {},
+          "columnDataFormats": {},
+          "rowHeights": {},
+          "colWidths": {},
+          "defaultColWidth": {},
+          "frozenRows": {},
+          "frozenCols": {},
+          "sortState": {},
+          "filter": {},
+          "validations": {},
+          "conditionalFormats": {},
+          "tables": {},
+          "pivotTable": {},
+          "charts": {},
+          "images": {},
+          "formulaWorkbookTitle": {},
+          "formulaWorkbookSheetNames": {},
+          "formulaWorkbookVisibleSheetNames": {},
+          "formulaWorkbookSheets": {},
+          "formulaWorkbookNamedRanges": {}
+        }
+      }
+    }
+  }
+}

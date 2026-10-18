@@ -1,0 +1,2 @@
+{"protocolVersion":1,"streamId":"edit-stream-1","seq":1,"type":"operation","payload":{"operation":{"type":"setCellStyle","targetRef":"replace-with-live-target-ref","style":{"bold":true,"backgroundColor":"#E8F5E9"}}}}
+{"protocolVersion":1,"streamId":"edit-stream-1","seq":2,"type":"stream.end","payload":{"finalSeq":2}}

@@ -1,0 +1,11 @@
+{
+  "protocolVersion": 1,
+  "documentId": "replace-with-live-document-id",
+  "requestId": "request-multi-range-001",
+  "contextId": "replace-with-live-context-id",
+  "baseRevision": "replace-with-live-revision",
+  "operations": [
+    { "type": "setCellStyle", "targetRef": "replace-with-first-live-target-ref", "style": { "bold": true } },
+    { "type": "setCellStyle", "targetRef": "replace-with-second-live-target-ref", "style": { "backgroundColor": "#FFF7CC" } }
+  ]
+}

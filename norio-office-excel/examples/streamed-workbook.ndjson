@@ -1,0 +1,5 @@
+{"protocolVersion":1,"streamId":"workbook-stream-1","seq":1,"type":"workbook.meta","payload":{"title":"流式销售表"}}
+{"protocolVersion":1,"streamId":"workbook-stream-1","seq":2,"type":"sheet.open","payload":{"sheetRef":"sales","name":"销售","rowCount":40,"colCount":26}}
+{"protocolVersion":1,"streamId":"workbook-stream-1","seq":3,"type":"cells.chunk","payload":{"sheetRef":"sales","startRow":1,"startCol":1,"values":[[{"type":"text","value":"月份"},{"type":"text","value":"销售额"}],[{"type":"text","value":"一月"},{"type":"number","value":12500}]]}}
+{"protocolVersion":1,"streamId":"workbook-stream-1","seq":4,"type":"sheet.close","payload":{"sheetRef":"sales"}}
+{"protocolVersion":1,"streamId":"workbook-stream-1","seq":5,"type":"stream.end","payload":{"finalSeq":5}}

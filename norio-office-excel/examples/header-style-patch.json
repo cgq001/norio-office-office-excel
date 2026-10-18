@@ -1,0 +1,19 @@
+{
+  "protocolVersion": 1,
+  "documentId": "replace-with-live-document-id",
+  "requestId": "request-header-style-001",
+  "contextId": "replace-with-live-context-id",
+  "baseRevision": "replace-with-live-revision",
+  "operations": [
+    {
+      "type": "setCellStyle",
+      "targetRef": "replace-with-live-target-ref",
+      "style": {
+        "bold": true,
+        "foregroundColor": "#FFFFFF",
+        "backgroundColor": "#1677FF",
+        "horizontalAlign": "center"
+      }
+    }
+  ]
+}

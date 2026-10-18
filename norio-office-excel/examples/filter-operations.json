@@ -1,0 +1,136 @@
+{
+  "description": "Structurally valid filter patches. Replace identity fields and opaque targetRef values with those returned by the current context.",
+  "examples": [
+    {
+      "name": "enable-filter",
+      "patch": {
+        "protocolVersion": 1,
+        "documentId": "document-from-context",
+        "requestId": "filter-enable-001",
+        "contextId": "context-from-editor",
+        "baseRevision": "revision-from-context",
+        "operations": [
+          { "type": "filterRange", "action": "enable", "targetRef": "target-ref-from-context" }
+        ]
+      }
+    },
+    {
+      "name": "filter-values-and-blank",
+      "patch": {
+        "protocolVersion": 1,
+        "documentId": "document-from-context",
+        "requestId": "filter-values-001",
+        "contextId": "context-from-editor",
+        "baseRevision": "revision-from-context",
+        "operations": [
+          { "type": "filterRange", "action": "apply", "targetRef": "target-ref-from-context", "col": 3, "filterState": { "mode": "values", "selectedValues": ["2010/10/21", ""] } }
+        ]
+      }
+    },
+    {
+      "name": "filter-text",
+      "patch": {
+        "protocolVersion": 1,
+        "documentId": "document-from-context",
+        "requestId": "filter-text-001",
+        "contextId": "context-from-editor",
+        "baseRevision": "revision-from-context",
+        "operations": [
+          { "type": "filterRange", "action": "apply", "targetRef": "target-ref-from-context", "col": 2, "filterState": { "mode": "condition", "conditions": [{ "type": "text", "operator": "contains", "value": "approved" }] } }
+        ]
+      }
+    },
+    {
+      "name": "filter-number-between",
+      "patch": {
+        "protocolVersion": 1,
+        "documentId": "document-from-context",
+        "requestId": "filter-number-001",
+        "contextId": "context-from-editor",
+        "baseRevision": "revision-from-context",
+        "operations": [
+          { "type": "filterRange", "action": "apply", "targetRef": "target-ref-from-context", "col": 5, "filterState": { "mode": "condition", "conditionJoin": "and", "conditions": [{ "type": "number", "operator": "between", "value": "100", "secondaryValue": "500" }] } }
+        ]
+      }
+    },
+    {
+      "name": "filter-non-empty",
+      "patch": {
+        "protocolVersion": 1,
+        "documentId": "document-from-context",
+        "requestId": "filter-non-empty-001",
+        "contextId": "context-from-editor",
+        "baseRevision": "revision-from-context",
+        "operations": [
+          { "type": "filterRange", "action": "apply", "targetRef": "target-ref-from-context", "col": 4, "filterState": { "mode": "non-empty" } }
+        ]
+      }
+    },
+    {
+      "name": "filter-colors",
+      "patch": {
+        "protocolVersion": 1,
+        "documentId": "document-from-context",
+        "requestId": "filter-colors-001",
+        "contextId": "context-from-editor",
+        "baseRevision": "revision-from-context",
+        "operations": [
+          { "type": "filterRange", "action": "apply", "targetRef": "target-ref-from-context", "col": 6, "filterState": { "mode": "colors", "selectedFillColors": ["#FFF2CC"], "selectedTextColors": ["#C00000"] } }
+        ]
+      }
+    },
+    {
+      "name": "combine-two-columns",
+      "patch": {
+        "protocolVersion": 1,
+        "documentId": "document-from-context",
+        "requestId": "filter-combine-001",
+        "contextId": "context-from-editor",
+        "baseRevision": "revision-from-context",
+        "operations": [
+          { "type": "filterRange", "action": "apply", "targetRef": "target-ref-from-context", "col": 2, "filterState": { "mode": "values", "selectedValues": ["East"] }, "mergeWithExisting": true },
+          { "type": "filterRange", "action": "apply", "targetRef": "target-ref-from-context", "col": 5, "filterState": { "mode": "condition", "conditions": [{ "type": "number", "operator": "gte", "value": "100" }] }, "mergeWithExisting": true }
+        ]
+      }
+    },
+    {
+      "name": "clear-column-condition",
+      "patch": {
+        "protocolVersion": 1,
+        "documentId": "document-from-context",
+        "requestId": "filter-clear-column-001",
+        "contextId": "context-from-editor",
+        "baseRevision": "revision-from-context",
+        "operations": [
+          { "type": "filterRange", "action": "clear-column", "targetRef": "target-ref-from-context", "col": 3 }
+        ]
+      }
+    },
+    {
+      "name": "clear-all-conditions",
+      "patch": {
+        "protocolVersion": 1,
+        "documentId": "document-from-context",
+        "requestId": "filter-clear-all-001",
+        "contextId": "context-from-editor",
+        "baseRevision": "revision-from-context",
+        "operations": [
+          { "type": "filterRange", "action": "clear-all", "targetRef": "target-ref-from-context" }
+        ]
+      }
+    },
+    {
+      "name": "disable-filter",
+      "patch": {
+        "protocolVersion": 1,
+        "documentId": "document-from-context",
+        "requestId": "filter-disable-001",
+        "contextId": "context-from-editor",
+        "baseRevision": "revision-from-context",
+        "operations": [
+          { "type": "filterRange", "action": "disable", "targetRef": "target-ref-from-context" }
+        ]
+      }
+    }
+  ]
+}

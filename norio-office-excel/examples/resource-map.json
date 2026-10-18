@@ -1,0 +1,12 @@
+{
+  "resources": [
+    {
+      "assetId": "logo-001",
+      "url": "https://host.example/authorized-assets/logo-001",
+      "name": "logo.png",
+      "mimeType": "image/png",
+      "width": 320,
+      "height": 96
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://norio.example/schemas/office-excel/ai-stream-event-v1.json",
+  "title": "Office Excel AI Stream Event v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocolVersion",
+    "streamId",
+    "seq",
+    "type",
+    "payload"
+  ],
+  "properties": {
+    "protocolVersion": {
+      "const": 1
+    },
+    "streamId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "seq": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "type": {
+      "enum": [
+        "workbook.meta",
+        "sheet.open",
+        "sheet.close",
+        "cells.chunk",
+        "cell.text.delta",
+        "operation",
+        "stream.end"
+      ]
+    },
+    "payload": {
+      "type": "object"
+    }
+  }
+}

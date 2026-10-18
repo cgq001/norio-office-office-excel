@@ -1,0 +1,31 @@
+{
+  "title": "公式与样式",
+  "activeSheetId": "sheet-summary",
+  "watermark": null,
+  "namedRanges": [],
+  "sheets": [
+    {
+      "id": "sheet-summary",
+      "name": "汇总",
+      "tabColor": "#22C55E",
+      "protected": false,
+      "hidden": false,
+      "pinned": false,
+      "rowCount": 40,
+      "colCount": 26,
+      "cells": {
+        "1:1": { "row": 1, "col": 1, "value": "项目", "style": { "bold": true, "foregroundColor": "#FFFFFF", "backgroundColor": "#1677FF" } },
+        "1:2": { "row": 1, "col": 2, "value": "金额", "style": { "bold": true, "foregroundColor": "#FFFFFF", "backgroundColor": "#1677FF" } },
+        "2:1": { "row": 2, "col": 1, "value": "收入" },
+        "2:2": { "row": 2, "col": 2, "value": "1000", "style": { "numberFormat": "currency-cny", "decimalPlaces": 2 } },
+        "3:1": { "row": 3, "col": 1, "value": "税后" },
+        "3:2": { "row": 3, "col": 2, "value": "=B2*(1-0.06)", "style": { "numberFormat": "currency-cny", "decimalPlaces": 2 } }
+      },
+      "cellLocks": {}, "merges": [], "hiddenRows": [], "hiddenCols": [], "rowGroups": [], "colGroups": [],
+      "rowOrderKeys": {}, "nextRowOrderKey": 1, "colOrderKeys": {}, "nextColOrderKey": 1,
+      "columnFormats": {}, "columnDataFormats": {}, "rowHeights": {}, "colWidths": {}, "defaultColWidth": 110,
+      "frozenRows": 1, "frozenCols": 0, "sortState": null, "filter": null, "validations": [],
+      "conditionalFormats": [], "tables": [], "pivotTable": null, "charts": [], "images": []
+    }
+  ]
+}

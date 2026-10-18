@@ -1,0 +1,49 @@
+{
+  "title": "AI 销售示例",
+  "activeSheetId": "sheet-sales",
+  "watermark": null,
+  "namedRanges": [],
+  "sheets": [
+    {
+      "id": "sheet-sales",
+      "name": "销售",
+      "tabColor": null,
+      "protected": false,
+      "hidden": false,
+      "pinned": false,
+      "rowCount": 40,
+      "colCount": 26,
+      "cells": {
+        "1:1": { "row": 1, "col": 1, "value": "月份", "style": { "bold": true, "backgroundColor": "#E8F5E9" } },
+        "1:2": { "row": 1, "col": 2, "value": "销售额", "style": { "bold": true, "backgroundColor": "#E8F5E9" } },
+        "2:1": { "row": 2, "col": 1, "value": "一月" },
+        "2:2": { "row": 2, "col": 2, "value": "12500", "style": { "numberFormat": "number", "useThousandsSeparator": true } }
+      },
+      "cellLocks": {},
+      "merges": [],
+      "hiddenRows": [],
+      "hiddenCols": [],
+      "rowGroups": [],
+      "colGroups": [],
+      "rowOrderKeys": {},
+      "nextRowOrderKey": 1,
+      "colOrderKeys": {},
+      "nextColOrderKey": 1,
+      "columnFormats": {},
+      "columnDataFormats": {},
+      "rowHeights": {},
+      "colWidths": {},
+      "defaultColWidth": 110,
+      "frozenRows": 0,
+      "frozenCols": 0,
+      "sortState": null,
+      "filter": null,
+      "validations": [],
+      "conditionalFormats": [],
+      "tables": [],
+      "pivotTable": null,
+      "charts": [],
+      "images": []
+    }
+  ]
+}
